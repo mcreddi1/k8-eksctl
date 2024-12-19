@@ -1,20 +1,18 @@
 terraform {
   required_providers {
     aws = {
-      source = "hashicorp/aws"
-      version = "5.66.0"
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
     }
   }
-
-  backend "s3" {
-    bucket = "81s-remote-state"
-    key    = "k8-eksctl"
-    region = "us-east-1"
-    dynamodb_table = "81s-locking"
-  }
 }
 
+# Configure the AWS Provider
 provider "aws" {
-  # Configuration options
   region = "us-east-1"
 }
+
+# # Create a VPC
+# resource "aws_vpc" "example" {
+#   cidr_block = "10.0.0.0/16"
+# }
