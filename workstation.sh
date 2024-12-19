@@ -40,9 +40,8 @@ usermod -aG docker ec2-user
 VALIDATE $? "Docker installation"
 
 # eksctl
-curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
-tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
-mv /tmp/eksctl /usr/local/bin
+curl --silent --location "https://github.com/weaveworks/eksctl/releases/download/v0.135.0/eksctl_Linux_amd64.tar.gz" | tar xz -C /tmp
+sudo mv /tmp/eksctl /usr/local/bin
 eksctl version
 VALIDATE $? "eksctl installation"
 
