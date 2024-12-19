@@ -1,6 +1,6 @@
 variable "sg_id" {
   type        = string
-  default     = "sg-04e1cb7757abb6d3a"
+  default     = "sg-0e0807a7063a9430a"
   description = "description"
 }
 

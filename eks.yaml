@@ -8,7 +8,7 @@ metadata:
 managedNodeGroups:
   - name: expense
     instanceType: t3.micro
-    desiredCapacity: 3
+    desiredCapacity: 1
     spot: true
     # availabilityZones:
     # - us-east-1f
