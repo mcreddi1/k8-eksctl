@@ -3,7 +3,7 @@ module "workstation" {
 
   name = "workstation"
 
-  instance_type          = "t3.micro"
+  instance_type          = "t3.small"
   vpc_security_group_ids = [var.sg_id]
   # convert StringList to list and get first element
   subnet_id = var.public_subnet_id
