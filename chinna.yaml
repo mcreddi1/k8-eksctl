@@ -31,7 +31,7 @@ spec:
   selector:
     app: myapp
     key: rep
-  type: ClusterIP
+  type: LoadBalancer
   ports:
   - name: myport
     protocol: TCP
