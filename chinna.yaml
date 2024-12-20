@@ -1,41 +1,66 @@
-apiVersion: apps/v1
-kind: ReplicaSet
+apiVersion: v1
+kind: PersistentVolume
 metadata:
-  name: myreplicaset
-  labels:
-    app: myapp
-    key: rep
+  name: ebs-static
 spec:
-  replicas: 2
-  selector:
-    matchLabels:
-      app: myapp
-      key: rep
-  template:
-    metadata:
-      labels:
-        app: myapp
-        key: rep
-    spec:
-      containers:
-        - name: myapp
-          image: nginx
+  capacity:
+    storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  csi:
+    driver: ebs.csi.aws.com
+    fsType: ext4
+    volumeHandle: vol-086db62afd150d443
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: ebs-static
+spec:
+  resources:
+    requests:
+      storage: 10Gi
+  accessModes:
+    - ReadWriteOnce
+  volumeName: ebs-static
+  storageClassName: ""
+---
+apiVersion: v1
+kind: Pod
+metadata:
+  name: ebs-static
+  labels:
+    name: ebs-static
+spec:
+  nodeSelector:
+    topology.kubernetes.io/zone: us-east-1a
+  containers:
+  - name: nginx
+    image: nginx
+    volumeMounts:
+      - name: ebs-static
+        mountPath: /usr/share/nginx/html
+  volumes:
+  - name: ebs-static
+    persistentVolumeClaim:
+      claimName: ebs-static
 ---
 # https://kubernetes.io/docs/concepts/services-networking/service/
 apiVersion: v1
 kind: Service
 metadata:
-  name: myport
+  name: nginx
   namespace: default
 spec:
   selector:
-    app: myapp
-    key: rep
+    purpose: ebs-static
   type: LoadBalancer
   ports:
-  - name: myport
+  - name: nginxsvcport
     protocol: TCP
     port: 80
     targetPort: 80
----
+    nodePort: 30007
+
+
 
