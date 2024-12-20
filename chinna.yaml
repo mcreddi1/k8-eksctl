@@ -1,33 +1,40 @@
-apiVersion: v1
-kind: Pod
+apiVersion: apps/v1
+kind: ReplicaSet
 metadata:
-  name: nginx
+  name: myreplicaset
   labels:
-    name: nginx
+    app: myapp
+    key: rep
 spec:
-  containers:
-    - name: nginx
-      image: nginx:latest
-      resources:
-        limits:
-          memory: 200Mi
-          cpu: 128
-        requests:
-          memory: 200Mi
-      ports:
-        - containerPort: 80
-          name: http
+  replicas: 2
+  selector:
+    matchLabels:
+      key: rep
+  template:
+    metadata:
+      labels:
+        key: rep
+    spec:
+      containers:
+        - name: myapp
+          image: nginx
 ---
+# https://kubernetes.io/docs/concepts/services-networking/service/
 apiVersion: v1
 kind: Service
 metadata:
-  name: nginx-service
+  name: myjob
+  namespace: default
 spec:
   selector:
-    app: nginx
+    app: myapp
+    key: rep
+  type: ClusterIP
   ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30000 # Port on the node
-  type: NodePort
+  - name: myjob
+    protocol: TCP
+    port: 80
+    targetPort: 5000
+    nodePort: 30001
+---
+
