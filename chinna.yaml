@@ -23,7 +23,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: myjob
+  name: myport
   namespace: default
 spec:
   selector:
@@ -31,7 +31,7 @@ spec:
     key: rep
   type: ClusterIP
   ports:
-  - name: myjob
+  - name: myport
     protocol: TCP
     port: 80
     targetPort: 5000
