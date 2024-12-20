@@ -19,7 +19,7 @@ metadata:
 spec:
   resources:
     requests:
-      storage: 10Gi
+      storage: 5Gi
   accessModes:
     - ReadWriteOnce
   volumeName: ebs-static
